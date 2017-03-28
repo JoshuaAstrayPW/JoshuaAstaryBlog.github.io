@@ -20,7 +20,7 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="JoshuaAstray&#39;Blog"/>
+        <meta property="og:title" content="mac osx 终端显示中文"/>
     
 
     <!--Open Graph Description-->
@@ -33,7 +33,7 @@
 
     <!--Type page-->
     
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content="article" />
     
 
     <!--Page Cover-->
@@ -44,7 +44,7 @@
 
     <!-- Title -->
     
-    <title>Archiv: 2017 - JoshuaAstray&#39;Blog</title>
+    <title>mac osx 终端显示中文 - JoshuaAstray&#39;Blog</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
@@ -130,102 +130,64 @@
 </nav>
 
     <!-- Main Content -->
-    
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
 
-<!-- Page Header -->
-<!-- Set your background image for this header in the theme's configuration: index_cover -->
 <header class="intro-header" style="background-image: url('http://www.codeblocq.com/assets/projects/hexo-theme-clean-blog/img/home-bg.jpg')">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="site-heading">
-                    <h1>2017</h1>
+                <div class="post-heading">
+                    <h1>mac osx 终端显示中文</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        2017-03-28
+                    </span>
                 </div>
             </div>
         </div>
     </div>
 </header>
 
-<!-- Main Content -->
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+
+            <!-- Gallery -->
             
-                <div class="post-preview">
-    <a href="/2017/03/28/mac-osx-终端显示中文/">
-        <h1 class="post-title archive">
-            mac osx 终端显示中文
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-        2017-03-28
-    </p>
-</div>
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <p>一. bash终端显示中文<br>要显示中文,用 ls -w命令即可,<br>或者直接修改配置文件 vi /etc/profile<br>增加 alias ls=’ls -w’<br>这样不用每次都敲选项-w ,这句放在/etc/bashrc 或者 /Users/Username/.profile 都可以.</p>
+<p>二.让bash终端可以输入中文</p>
+<p>vi /Users/USERNAME/.inputrc<br>添加如下内容并保存<br>set meta-flag on<br>set convert-meta off<br>set input-meta on<br>set output-meta on</p>
+<p>vi /etc/profile</p>
+<p>添加下列内容退出,(放在/Users/USERNAME/.profile 也一样)</p>
+<p>export LANG=zh_CN.UTF-8</p>
+<p>这样,你的bash就可以显示和输入中文了.</p>
+<p>三.在vi 编辑程序中输入中文<br>vi ~/.profile<br>增加下列alias 即可在vi 中输入utf8编码的中文<br>alias vi=’env LC_CTYPE=zh_CN.UTF-8 vi’</p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
             
-                <div class="post-preview">
-    <a href="/2017/03/28/jvm内存模型/">
-        <h1 class="post-title archive">
-            jvm内存模型
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-        2017-03-28
-    </p>
-</div>
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
             
-                <div class="post-preview">
-    <a href="/2017/03/23/minimum-depth-of-binary-tree/">
-        <h1 class="post-title archive">
-            minimum-depth-of-binary-tree
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-        2017-03-23
-    </p>
-</div>
-            
-                <div class="post-preview">
-    <a href="/2017/03/22/求二叉树最小深度/">
-        <h1 class="post-title archive">
-            first
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-        2017-03-22
-    </p>
-</div>
-            
-                <div class="post-preview">
-    <a href="/2017/03/22/hello-world/">
-        <h1 class="post-title archive">
-            Hello World
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-        2017-03-22
-    </p>
-</div>
-            
-            <div class="archive-before-pagination"></div>
-            <ul class="pager">
-    
-    
-</ul>
         </div>
     </div>
-</div>
-
-
+</article>
 
     <!-- Footer -->
     <hr />
