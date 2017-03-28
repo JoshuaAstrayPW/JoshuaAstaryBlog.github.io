@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+    
+        <meta name="description" content="start from zero">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Joshua">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="Java基础:HashMap"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="start from zero" />
+    
+
+    <!--Open Graph Site Name-->
+    <meta property="og:site_name" content="JoshuaAstray&#39;Blog"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article" />
+    
+
+    <!--Page Cover-->
+    
+
+        <meta name="twitter:card" content="summary" />
+    
+
+    <!-- Title -->
+    
+    <title>Java基础:HashMap - JoshuaAstray&#39;Blog</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet" />
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+	
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Home</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/JoshuaAstrayPW">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('http://www.codeblocq.com/assets/projects/hexo-theme-clean-blog/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Java基础:HashMap</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        2017-03-28
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/tags/Java基础/">#Java基础</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h3 id="一·定义"><a href="#一·定义" class="headerlink" title="一·定义"></a>一·定义</h3><p>HashMap是一种集合，实现了Map接口，继承自AbstractMap.其实AbstractMap已经实现了Map,这里定义为Map更加直观。 </p>
+<pre><code> public class HashMap&lt;K,V&gt;
+extends AbstractMap&lt;K,V&gt;
+implements Map&lt;K,V&gt;, Cloneable, Serializable 
+</code></pre><h3 id="二·构造函数"><a href="#二·构造函数" class="headerlink" title="二·构造函数"></a>二·构造函数</h3><p>HashMap提供了三个构造函数：</p>
+<p> HashMap()：构造一个具有默认初始容量 (16) 和默认加载因子 (0.75) 的空 HashMap。<br> HashMap(int initialCapacity)：构造一个带指定初始容量和默认加载因子 (0.75) 的空 HashMap。<br> HashMap(int initialCapacity, float loadFactor)：构造一个带指定初始容量和加载因子的空 HashMap。<br> 在这里提到了两个参数：初始容量，加载因子。这两个参数是影响HashMap性能的重要参数。其中容量表示哈希表中桶的数量，初始容量是创建哈希表时的容量，加载因子是哈希表在其容量自动增加之前可以达到多满的一种尺度，它衡量的是一个散列表的空间的使用程度，负载因子越大表示散列表的装填程度越高，反之愈小。对于使用链表法的散列表来说，查找一个元素的平均时间是O(1+a)，因此如果负载因子越大，对空间的利用更充分，然而后果是查找效率的降低；如果负载因子太小，那么散列表的数据将过于稀疏，对空间造成严重浪费。系统默认负载因子为0.75，一般情况下我们是无需修改的。  </p>
+<h3 id="三·数据结构"><a href="#三·数据结构" class="headerlink" title="三·数据结构"></a>三·数据结构</h3><p>在Java中的所有数据结构都可以使用数组和引用来实现，HashMap也是如此，是一个如下图的“链表散列”。<br><img src="/img／hashmap.png" alt="Alt text">  </p>
+<p> 所以HashMap的底层实现还是数组，只是数组的每一项都是一条链，initialCapacity定义了数组长度。下面是构造函数源码： </p>
+<pre><code>         public HashMap(int initialCapacity, float loadFactor) {
+    //初始容量不能&lt;0
+    if (initialCapacity &lt; 0)
+        throw new IllegalArgumentException(&quot;Illegal initial capacity: &quot;
+                + initialCapacity);
+    //初始容量不能 &gt; 最大容量值，HashMap的最大容量值为2^30
+    if (initialCapacity &gt; MAXIMUM_CAPACITY)
+        initialCapacity = MAXIMUM_CAPACITY;
+    //负载因子不能 &lt; 0
+    if (loadFactor &lt;= 0 || Float.isNaN(loadFactor))
+        throw new IllegalArgumentException(&quot;Illegal load factor: &quot;
+                + loadFactor);
+
+    // 计算出大于 initialCapacity 的最小的 2 的 n 次方值。
+    int capacity = 1;
+    while (capacity &lt; initialCapacity)
+        capacity &lt;&lt;= 1;
+
+    this.loadFactor = loadFactor;
+    //设置HashMap的容量极限，当HashMap的容量达到该极限时就会进行扩容操作
+    threshold = (int) (capacity * loadFactor);
+    //初始化table数组
+    table = new Entry[capacity];
+    init();
+}  
+</code></pre><p>   所以从上可以看出HashMap的每一次新建都会初始化一个table数组，存放的是Entry节点。 </p>
+<pre><code>    static class Entry&lt;K,V&gt; implements Map.Entry&lt;K,V&gt; {
+    final K key;
+    V value;
+    Entry&lt;K,V&gt; next;
+    final int hash;
+
+    /**
+     * Creates new entry.
+     */
+    Entry(int h, K k, V v, Entry&lt;K,V&gt; n) {
+        value = v;
+        next = n;
+        key = k;
+        hash = h;
+    }
+    .......
+} 
+</code></pre><p>  Entry是HashMap的内部类，包含了Key和Value还有下一个节点next，以及hash值。 </p>
+<h3 id="四·存储实现"><a href="#四·存储实现" class="headerlink" title="四·存储实现"></a>四·存储实现</h3><p>先看看源码： </p>
+<pre><code>public V put(K key, V value) {
+    //当key为null，调用putForNullKey方法，保存null与table第一个位置中，这是HashMap允许为null的原因
+    if (key == null)
+        return putForNullKey(value);
+    //计算key的hash值
+    int hash = hash(key.hashCode());                  ------(1)
+    //计算key hash 值在 table 数组中的位置
+    int i = indexFor(hash, table.length);             ------(2)
+    //从i出开始迭代 e,找到 key 保存的位置
+    for (Entry&lt;K, V&gt; e = table[i]; e != null; e = e.next) {
+        Object k;
+        //判断该条链上是否有hash值相同的(key相同)
+        //若存在相同，则直接覆盖value，返回旧value
+        if (e.hash == hash &amp;&amp; ((k = e.key) == key || key.equals(k))) {
+            V oldValue = e.value;    //旧值 = 新值
+            e.value = value;
+            e.recordAccess(this);
+            return oldValue;     //返回旧值
+        }
+    }
+    //修改次数增加1
+    modCount++;
+    //将key、value添加至i位置处
+    addEntry(hash, key, value, i);
+    return null;
+} 
+</code></pre><p> 所以HashMap保存数据的过程是先判断key是否为null，如果是就直接放在table数组的开头，部位空则先计算key的hash值，根据hash值找到在数组中的索引位置，如果在该位置有元素再判断key值是否相同，相同就直接覆盖，不同则保存在链头，旧数据在链尾。注意HashMap是不允许有相同的key值的。 </p>
+<p>  重点来了： </p>
+<ul>
+<li>迭代处为了防止存在相同的key值，若发现两个hash值 <pre><code>相同时，HashMap的处理方法是用新value代替就value。 
+</code></pre></li>
+<li><p>（1），（2）处是精华所在，首先hash方法是一个纯粹的数学计算，由于计算hash值。 </p>
+<pre><code> static int hash(int h) {
+h ^= (h &gt;&gt;&gt; 20) ^ (h &gt;&gt;&gt; 12);
+return h ^ (h &gt;&gt;&gt; 7) ^ (h &gt;&gt;&gt; 4);
+} 
+</code></pre></li>
+</ul>
+<p>对于HashMap的table而言，数据需要分布均匀，最好每项只有一个元素，链太长会导致查询缓慢，数组太松则浪费空间。所以怎样来算hash值比较合适呢，取模？消耗太大，HashMap是这样处理的：调用indexFor方法。 </p>
+<pre><code>  static int indexFor(int h, int length) {
+return h &amp; (length-1);
+}  
+</code></pre><p> HashMap的底层数组长度总是2的n次方，在构造函数中存在：capacity &lt;&lt;= 1;这样做总是能够保证HashMap的底层数组长度为2的n次方。当length为2的n次方时，h&amp;(length - 1)就相当于对length取模，而且速度比直接取模快得多，这是HashMap在速度上的一个优化。至于为什么是2的n次方下面解释。<br> 我们回到indexFor方法，该方法仅有一条语句：h&amp;(length - 1)，这句话除了上面的取模运算外还有一个非常重要的责任：均匀分布table数据和充分利用空间。<br>   这里我们假设length为16(2^n)和15，h为5、6、7。 </p>
+<p>   <img src="/img／indexfor.png" alt="Alt text"> </p>
+<p>   所以说当length = 2^n时，不同的hash值发生碰撞的概率比较小，这样就会使得数据在table数组中分布较均匀，查询速度也较快。 </p>
+<p>   这里我们再来复习put的流程：当我们想一个HashMap中添加一对key-value时，系统首先会计算key的hash值，然后根据hash值确认在table中存储的位置。若该位置没有元素，则直接插入。否则迭代该处元素链表并依此比较其key的hash值。如果两个hash值相等且key值相等(e.hash == hash &amp;&amp; ((k = e.key) == key || key.equals(k))),则用新的Entry的value覆盖原来节点的value。如果两个hash值相等但key值不等 ，则将该节点插入该链表的链头。具体的实现过程见addEntry方法，如下：   </p>
+<pre><code> void addEntry(int hash, K key, V value, int bucketIndex) {
+    //获取bucketIndex处的Entry
+    Entry&lt;K, V&gt; e = table[bucketIndex];
+    //将新创建的 Entry 放入 bucketIndex 索引处，并让新的 Entry 指向原来的 Entry 
+    table[bucketIndex] = new Entry&lt;K, V&gt;(hash, key, value, e);
+    //若HashMap中元素的个数超过极限了，则容量扩大两倍
+    if (size++ &gt;= threshold)
+        resize(2 * table.length);
+}
+</code></pre><p>这个方法中有两点需要注意：</p>
+<p>   一是链的产生。<br>   这是一个非常优雅的设计。系统总是将新的Entry对象添加到bucketIndex处。如果bucketIndex处已经有了对象，那么新添加的Entry对象将指向原有的Entry对象，形成一条Entry链，但是若bucketIndex处没有Entry对象，也就是e==null,那么新添加的Entry对象指向null，也就不会产生Entry链了。</p>
+<p>   二、扩容问题。</p>
+<p> 随着HashMap中元素的数量越来越多，发生碰撞的概率就越来越大，所产生的链表长度就会越来越长，这样势必会影响HashMap的速度，为了保证HashMap的效率，系统必须要在某个临界点进行扩容处理。该临界点在当HashMap中元素的数量等于table数组长度*加载因子。但是扩容是一个非常耗时的过程，因为它需要重新计算这些数据在新table数组中的位置并进行复制处理。所以如果我们已经预知HashMap中元素的个数，那么预设元素的个数能够有效的提高HashMap的性能。 </p>
+<h3 id="五、读取实现：get-key"><a href="#五、读取实现：get-key" class="headerlink" title="五、读取实现：get(key)"></a>五、读取实现：get(key)</h3><p>相对于HashMap的存而言，取就显得比较简单了。通过key的hash值找到在table数组中的索引处的Entry，然后返回该key对应的value即可。</p>
+<pre><code> public V get(Object key) {
+    // 若为null，调用getForNullKey方法返回相对应的value
+    if (key == null)
+        return getForNullKey();
+    // 根据该 key 的 hashCode 值计算它的 hash 码  
+    int hash = hash(key.hashCode());
+    // 取出 table 数组中指定索引处的值
+    for (Entry&lt;K, V&gt; e = table[indexFor(hash, table.length)]; e != null; e = e.next) {
+        Object k;
+        //若搜索的key与查找的key相同，则返回相对应的value
+        if (e.hash == hash &amp;&amp; ((k = e.key) == key || key.equals(k)))
+            return e.value;
+    }
+    return null;
+}
+</code></pre><p>在这里能够根据key快速的取到value除了和HashMap的数据结构密不可分外，还和Entry有莫大的关系，在前面就提到过，HashMap在存储过程中并没有将key，value分开来存储，而是当做一个整体key-value来处理的，这个整体就是Entry对象。同时value也只相当于key的附属而已。在存储的过程中，系统根据key的hashcode来决定Entry在table数组中的存储位置，在取的过程中同样根据key的hashcode取出相对应的Entry对象。</p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/JoshuaAstrayPW" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2017 Joshua<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>
