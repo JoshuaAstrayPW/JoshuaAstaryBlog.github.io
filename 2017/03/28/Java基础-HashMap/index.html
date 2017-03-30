@@ -274,7 +274,7 @@ return h ^ (h &gt;&gt;&gt; 7) ^ (h &gt;&gt;&gt; 4);
 return h &amp; (length-1);
 }  
 </code></pre><p> HashMap的底层数组长度总是2的n次方，在构造函数中存在：capacity &lt;&lt;= 1;这样做总是能够保证HashMap的底层数组长度为2的n次方。当length为2的n次方时，h&amp;(length - 1)就相当于对length取模，而且速度比直接取模快得多，这是HashMap在速度上的一个优化。至于为什么是2的n次方下面解释。<br> 我们回到indexFor方法，该方法仅有一条语句：h&amp;(length - 1)，这句话除了上面的取模运算外还有一个非常重要的责任：均匀分布table数据和充分利用空间。<br>   这里我们假设length为16(2^n)和15，h为5、6、7。 </p>
-<p>   <img src="/2017/03/28/Java基础-HashMap/" alt="Alt text"> </p>
+<p>   <img src="/2017/03/28/Java基础-HashMap/indexfor.png" alt="indexfor"> </p>
 <p>   所以说当length = 2^n时，不同的hash值发生碰撞的概率比较小，这样就会使得数据在table数组中分布较均匀，查询速度也较快。 </p>
 <p>   这里我们再来复习put的流程：当我们想一个HashMap中添加一对key-value时，系统首先会计算key的hash值，然后根据hash值确认在table中存储的位置。若该位置没有元素，则直接插入。否则迭代该处元素链表并依此比较其key的hash值。如果两个hash值相等且key值相等(e.hash == hash &amp;&amp; ((k = e.key) == key || key.equals(k))),则用新的Entry的value覆盖原来节点的value。如果两个hash值相等但key值不等 ，则将该节点插入该链表的链头。具体的实现过程见addEntry方法，如下：   </p>
 <pre><code> void addEntry(int hash, K key, V value, int bucketIndex) {
