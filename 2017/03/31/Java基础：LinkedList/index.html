@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+    
+        <meta name="description" content="start from zero">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Joshua">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="Java基础：LinkedList"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="start from zero" />
+    
+
+    <!--Open Graph Site Name-->
+    <meta property="og:site_name" content="JoshuaAstray&#39;Blog"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article" />
+    
+
+    <!--Page Cover-->
+    
+
+        <meta name="twitter:card" content="summary" />
+    
+
+    <!-- Title -->
+    
+    <title>Java基础：LinkedList - JoshuaAstray&#39;Blog</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet" />
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+	
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Home</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/JoshuaAstrayPW">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('http://www.codeblocq.com/assets/projects/hexo-theme-clean-blog/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Java基础：LinkedList</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        2017-03-31
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/tags/Java基础/">#Java基础</a> <a href="/tags/集合/">#集合</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h3 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h3><p>   LinkedList与ArrayList一样实现List接口，只是ArrayList是List接口的大小可变数组的实现，LinkedList是List接口链表的实现。基于链表实现的方式使得LinkedList在插入和删除时更优于ArrayList，而随机访问则比ArrayList逊色些。</p>
+<p>  LinkedList实现所有可选的列表操作，并允许所有的元素包括null。</p>
+<p>  除了实现 List 接口外，LinkedList 类还为在列表的开头及结尾 get、remove 和 insert 元素提供了统一的命名方法。这些操作允许将链接列表用作堆栈、队列或双端队列。</p>
+<p>  此类实现 Deque 接口，为 add、poll 提供先进先出队列操作，以及其他堆栈和双端队列操作。</p>
+<p>  所有操作都是按照双重链接列表的需要执行的。在列表中编索引的操作将从开头或结尾遍历列表（从靠近指定索引的一端）。</p>
+<p> 同时，与ArrayList一样此实现<strong>不是同步</strong>的。</p>
+<p>  （以上摘自JDK 6.0 API）。</p>
+<p>###二、源码分析</p>
+<h4 id="2-1、定义"><a href="#2-1、定义" class="headerlink" title="2.1、定义"></a>2.1、定义</h4><p>  首先我们先看LinkedList的定义：</p>
+<pre><code>public class LinkedList&lt;E&gt;
+extends AbstractSequentialList&lt;E&gt;
+implements List&lt;E&gt;, Deque&lt;E&gt;, Cloneable, java.io.Serializable
+</code></pre><p>  从这段代码中我们可以清晰地看出LinkedList继承AbstractSequentialList，实现List、Deque、Cloneable、Serializable。其中AbstractSequentialList提供了 List 接口的骨干实现，从而最大限度地减少了实现受“连续访问”数据存储（如链接列表）支持的此接口所需的工作,从而以减少实现List接口的复杂度。Deque一个线性 collection，支持在两端插入和移除元素，定义了双端队列的操作。</p>
+<h4 id="2-2、属性"><a href="#2-2、属性" class="headerlink" title="2.2、属性"></a>2.2、属性</h4><p>  在LinkedList中提供了两个基本属性size、header。</p>
+<pre><code>private transient Entry&lt;E&gt; header = new Entry&lt;E&gt;(null, null, null);
+private transient int size = 0;
+</code></pre><p>  其中size表示的LinkedList的大小，header表示链表的表头，Entry为节点对象。</p>
+<pre><code>private static class Entry&lt;E&gt; {
+    E element;        //元素节点
+    Entry&lt;E&gt; next;    //下一个元素
+    Entry&lt;E&gt; previous;  //上一个元素
+
+    Entry(E element, Entry&lt;E&gt; next, Entry&lt;E&gt; previous) {
+        this.element = element;
+        this.next = next;
+        this.previous = previous;
+    }
+}
+</code></pre><p>  上面为Entry对象的源代码，Entry为LinkedList的内部类，它定义了存储的元素。该元素的前一个元素、后一个元素，这是典型的双向链表定义方式。</p>
+<h4 id="2-3、构造方法"><a href="#2-3、构造方法" class="headerlink" title="2.3、构造方法"></a>2.3、构造方法</h4><p>  LinkedList提供了两个构造方法：LinkedList()和LinkedList(Collection&lt;? extends E&gt; c)。</p>
+<pre><code>/**
+ *  构造一个空列表。
+ */
+public LinkedList() {
+    header.next = header.previous = header;
+}
+
+/**
+ *  构造一个包含指定 collection 中的元素的列表，这些元素按其 collection 的迭代器返回的顺序排列。
+ */
+public LinkedList(Collection&lt;? extends E&gt; c) {
+    this();
+    addAll(c);
+}
+</code></pre><p>   LinkedList()构造一个空列表。里面没有任何元素，仅仅只是将header节点的前一个元素、后一个元素都指向自身。</p>
+<p>  LinkedList(Collection&lt;? extends E&gt; c)： 构造一个包含指定 collection 中的元素的列表，这些元素按其 collection 的迭代器返回的顺序排列。该构造函数首先会调用LinkedList()，构造一个空列表，然后调用了addAll()方法将Collection中的所有元素添加到列表中。以下是addAll()的源代码：</p>
+<pre><code>/**
+ *  添加指定 collection 中的所有元素到此列表的结尾，顺序是指定 collection 的迭代器返回这些元素的顺序。
+ */
+public boolean addAll(Collection&lt;? extends E&gt; c) {
+    return addAll(size, c);
+}
+
+/**
+ * 将指定 collection 中的所有元素从指定位置开始插入此列表。其中index表示在其中插入指定collection中第一个元素的索引
+ */
+public boolean addAll(int index, Collection&lt;? extends E&gt; c) {
+    //若插入的位置小于0或者大于链表长度，则抛出IndexOutOfBoundsException异常
+    if (index &lt; 0 || index &gt; size)
+        throw new IndexOutOfBoundsException(&quot;Index: &quot; + index + &quot;, Size: &quot; + size);
+    Object[] a = c.toArray();
+    int numNew = a.length;    //插入元素的个数
+    //若插入的元素为空，则返回false
+    if (numNew == 0)
+        return false;
+    //modCount:在AbstractList中定义的，表示从结构上修改列表的次数
+    modCount++;
+    //获取插入位置的节点，若插入的位置在size处，则是头节点，否则获取index位置处的节点
+    Entry&lt;E&gt; successor = (index == size ? header : entry(index));
+    //插入位置的前一个节点，在插入过程中需要修改该节点的next引用：指向插入的节点元素
+    Entry&lt;E&gt; predecessor = successor.previous;
+    //执行插入动作
+    for (int i = 0; i &lt; numNew; i++) {
+        //构造一个节点e，这里已经执行了插入节点动作同时修改了相邻节点的指向引用
+        //
+        Entry&lt;E&gt; e = new Entry&lt;E&gt;((E) a[i], successor, predecessor);
+        //将插入位置前一个节点的下一个元素引用指向当前元素
+        predecessor.next = e;
+        //修改插入位置的前一个节点，这样做的目的是将插入位置右移一位，保证后续的元素是插在该元素的后面，确保这些元素的顺序
+        predecessor = e;
+    }
+    successor.previous = predecessor;
+    //修改容量大小
+    size += numNew;
+    return true;
+}
+</code></pre><p>  在addAll()方法中，涉及到了两个方法，一个是entry(int index)，该方法为LinkedList的私有方法，主要是用来查找index位置的节点元素。</p>
+<pre><code>/**
+ * 返回指定位置(若存在)的节点元素
+ */
+private Entry&lt;E&gt; entry(int index) {
+    if (index &lt; 0 || index &gt;= size)
+        throw new IndexOutOfBoundsException(&quot;Index: &quot; + index + &quot;, Size: &quot;
+                + size);
+    //头部节点
+    Entry&lt;E&gt; e = header;
+    //判断遍历的方向
+    if (index &lt; (size &gt;&gt; 1)) {
+        for (int i = 0; i &lt;= index; i++)
+            e = e.next;
+    } else {
+        for (int i = size; i &gt; index; i--)
+            e = e.previous;
+    }
+    return e;
+}
+</code></pre><p>  从该方法有两个遍历方向中我们也可以看出LinkedList是双向链表，这也是在构造方法中为什么需要将header的前、后节点均指向自己。</p>
+<p>  如果对数据结构有点了解，对上面所涉及的内容应该问题，我们只需要清楚一点：LinkedList是双向链表，其余都迎刃而解。</p>
+<p>  由于篇幅有限，下面将就LinkedList中几个常用的方法进行源码分析。</p>
+<h4 id="2-4、增加方法"><a href="#2-4、增加方法" class="headerlink" title="2.4、增加方法"></a>2.4、增加方法</h4><pre><code>  add(E e): 将指定元素添加到此列表的结尾。
+
+    public boolean add(E e) {
+addBefore(e, header);
+    return true;
+}
+  该方法调用addBefore方法，然后直接返回true，对于addBefore()而已，它为LinkedList的私有方法。
+
+private Entry&lt;E&gt; addBefore(E e, Entry&lt;E&gt; entry) {
+    //利用Entry构造函数构建一个新节点 newEntry，
+    Entry&lt;E&gt; newEntry = new Entry&lt;E&gt;(e, entry, entry.previous);
+    //修改newEntry的前后节点的引用，确保其链表的引用关系是正确的
+    newEntry.previous.next = newEntry;
+    newEntry.next.previous = newEntry;
+    //容量+1
+    size++;
+    //修改次数+1
+    modCount++;
+    return newEntry;
+}
+</code></pre><p>  在addBefore方法中无非就是做了这件事：构建一个新节点newEntry，然后修改其前后的引用。</p>
+<p>  LinkedList还提供了其他的增加方法：</p>
+<p> add(int index, E element)：在此列表中指定的位置插入指定的元素。</p>
+<p>  addAll(Collection&lt;? extends E&gt; c)：添加指定 collection 中的所有元素到此列表的结尾，顺序是指定 collection 的迭代器返回这些元素的顺序。</p>
+<p> addAll(int index, Collection&lt;? extends E&gt; c)：将指定 collection 中的所有元素从指定位置开始插入此列表。</p>
+<p> AddFirst(E e): 将指定元素插入此列表的开头。</p>
+<p>  addLast(E e): 将指定元素添加到此列表的结尾。</p>
+<h4 id="2-5、移除方法"><a href="#2-5、移除方法" class="headerlink" title="2.5、移除方法"></a>2.5、移除方法</h4><p>  remove(Object o)：从此列表中移除首次出现的指定元素（如果存在）。该方法的源代码如下：</p>
+<pre><code>public boolean remove(Object o) {
+    if (o==null) {
+        for (Entry&lt;E&gt; e = header.next; e != header; e = e.next) {
+            if (e.element==null) {
+                remove(e);
+                return true;
+            }
+        }
+    } else {
+        for (Entry&lt;E&gt; e = header.next; e != header; e = e.next) {
+            if (o.equals(e.element)) {
+                remove(e);
+                return true;
+            }
+        }
+    }
+    return false;
+}
+</code></pre><p>   该方法首先会判断移除的元素是否为null，然后迭代这个链表找到该元素节点，最后调用remove(Entry<e> e)，remove(Entry<e> e)为私有方法，是LinkedList中所有移除方法的基础方法，如下：</e></e></p>
+<pre><code>private E remove(Entry&lt;E&gt; e) {
+    if (e == header)
+        throw new NoSuchElementException();
+
+    //保留被移除的元素：要返回
+    E result = e.element;
+
+    //将该节点的前一节点的next指向该节点后节点
+    e.previous.next = e.next;
+    //将该节点的后一节点的previous指向该节点的前节点
+    //这两步就可以将该节点从链表从除去：在该链表中是无法遍历到该节点的
+    e.next.previous = e.previous;
+    //将该节点归空
+    e.next = e.previous = null;
+    e.element = null;
+    size--;
+    modCount++;
+    return result;
+}
+</code></pre><p> 其他的移除方法：</p>
+<p> clear()： 从此列表中移除所有元素。</p>
+<p> remove()：获取并移除此列表的头（第一个元素）。</p>
+<p> remove(int index)：移除此列表中指定位置处的元素。</p>
+<p> remove(Objec o)：从此列表中移除首次出现的指定元素（如果存在）。</p>
+<p> removeFirst()：移除并返回此列表的第一个元素。</p>
+<p> removeFirstOccurrence(Object o)：从此列表中移除第一次出现的指定元素（从头部到尾部遍历列表时）。</p>
+<p> removeLast()：移除并返回此列表的最后一个元素。</p>
+<p> removeLastOccurrence(Object o)：从此列表中移除最后一次出现的指定元素（从头部到尾部遍历列表时）。</p>
+<h4 id="2-6、查找方法"><a href="#2-6、查找方法" class="headerlink" title="2.6、查找方法"></a>2.6、查找方法</h4><p>  对于查找方法的源码就没有什么好介绍了，无非就是迭代，比对，然后就是返回当前值。</p>
+<p> get(int index)：返回此列表中指定位置处的元素。</p>
+<p> getFirst()：返回此列表的第一个元素。</p>
+<p> getLast()：返回此列表的最后一个元素。</p>
+<p> indexOf(Object o)：返回此列表中首次出现的指定元素的索引，如果此列表中不包含该元素，则返回 -1。</p>
+<p> lastIndexOf(Object o)：返回此列表中最后出现的指定元素的索引，如果此列表中不包含该元素，则返回 -1。</p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/JoshuaAstrayPW" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2017 Joshua<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>
