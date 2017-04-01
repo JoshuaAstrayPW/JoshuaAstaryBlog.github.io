@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+    
+        <meta name="description" content="start from zero">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Joshua">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="Java基础:HashSet"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="start from zero" />
+    
+
+    <!--Open Graph Site Name-->
+    <meta property="og:site_name" content="JoshuaAstray&#39;Blog"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article" />
+    
+
+    <!--Page Cover-->
+    
+
+        <meta name="twitter:card" content="summary" />
+    
+
+    <!-- Title -->
+    
+    <title>Java基础:HashSet - JoshuaAstray&#39;Blog</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet" />
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+	
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Home</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/JoshuaAstrayPW">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('http://www.codeblocq.com/assets/projects/hexo-theme-clean-blog/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Java基础:HashSet</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        2017-04-01
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/tags/Java基础/">#Java基础</a> <a href="/tags/集合/">#集合</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <p>###一、定义</p>
+<pre><code>public class HashSet&lt;E&gt;
+extends AbstractSet&lt;E&gt;
+implements Set&lt;E&gt;, Cloneable, java.io.Serializable
+</code></pre><p>   HashSet继承AbstractSet类，实现Set、Cloneable、Serializable接口。其中AbstractSet提供 Set 接口的骨干实现，从而最大限度地减少了实现此接口所需的工作。Set接口是一种不包括重复元素的Collection，它维持它自己的内部排序，所以随机访问没有任何意义。</p>
+<p>  基本属性</p>
+<pre><code>//基于HashMap实现，底层使用HashMap保存所有元素
+    private transient HashMap&lt;E,Object&gt; map;
+
+    //定义一个Object对象作为HashMap的value
+    private static final Object PRESENT = new Object();
+ 构造函数
+
+/**
+     * 默认构造函数
+     * 初始化一个空的HashMap，并使用默认初始容量为16和加载因子0.75。
+     */
+    public HashSet() {
+        map = new HashMap&lt;&gt;();
+    }
+
+    /**
+     * 构造一个包含指定 collection 中的元素的新 set。
+     */
+    public HashSet(Collection&lt;? extends E&gt; c) {
+        map = new HashMap&lt;&gt;(Math.max((int) (c.size()/.75f) + 1, 16));
+        addAll(c);
+    }
+
+    /**
+     * 构造一个新的空 set，其底层 HashMap 实例具有指定的初始容量和指定的加载因子
+     */
+    public HashSet(int initialCapacity, float loadFactor) {
+        map = new HashMap&lt;&gt;(initialCapacity, loadFactor);
+    }
+
+    /**
+     * 构造一个新的空 set，其底层 HashMap 实例具有指定的初始容量和默认的加载因子（0.75）。
+     */
+    public HashSet(int initialCapacity) {
+       map = new HashMap&lt;&gt;(initialCapacity);
+    }
+
+    /**
+     * 在API中我没有看到这个构造函数，今天看源码才发现（原来访问权限为包权限，不对外公开的）
+     * 以指定的initialCapacity和loadFactor构造一个新的空链接哈希集合。
+     * dummy 为标识 该构造函数主要作用是对LinkedHashSet起到一个支持作用
+     */
+    HashSet(int initialCapacity, float loadFactor, boolean dummy) {
+       map = new LinkedHashMap&lt;&gt;(initialCapacity, loadFactor);
+    }
+ 从构造函数中可以看出HashSet所有的构造都是构造出一个新的HashMap，其中最后一个构造函数，为包访问权限是不对外公开，仅仅只在使用LinkedHashSet时才会发生作用。
+</code></pre><h3 id="二、方法"><a href="#二、方法" class="headerlink" title="二、方法"></a>二、方法</h3><p>   既然HashSet是基于HashMap，那么对于HashSet而言，其方法的实现过程是非常简单的。</p>
+<pre><code>public Iterator&lt;E&gt; iterator() {
+    return map.keySet().iterator();
+}
+</code></pre><p>   iterator()方法返回对此 set 中元素进行迭代的迭代器。返回元素的顺序并不是特定的。底层调用HashMap的keySet返回所有的key，这点反应了HashSet中的所有元素都是保存在HashMap的key中，value则是使用的PRESENT对象，该对象为static final。</p>
+<pre><code>public int size() {
+    return map.size();
+}
+</code></pre><p>  size()返回此 set 中的元素的数量（set 的容量）。底层调用HashMap的size方法，返回HashMap容器的大小。</p>
+<pre><code>public boolean isEmpty() {
+    return map.isEmpty();
+}
+isEmpty()，判断HashSet()集合是否为空，为空返回 true，否则返回false。
+
+public boolean contains(Object o) {
+    return map.containsKey(o);
+}
+</code></pre><p>   contains()，判断某个元素是否存在于HashSet()中，存在返回true，否则返回false。更加确切的讲应该是要满足这种关系才能返回true：(o==null ? e==null : o.equals(e))。底层调用containsKey判断HashMap的key值是否为空。</p>
+<pre><code>public boolean add(E e) {
+    return map.put(e, PRESENT)==null;
+}
+</code></pre><p>  add()如果此 set 中尚未包含指定元素，则添加指定元素。如果此Set没有包含满足(e==null ? e2==null : e.equals(e2)) 的e2时，则将e2添加到Set中，否则不添加且返回false。由于底层使用HashMap的put方法将key = e，value=PRESENT构建成key-value键值对，当此e存在于HashMap的key中，则value将会覆盖原有value，但是key保持不变，所以如果将一个已经存在的e元素添加中HashSet中，新添加的元素是不会保存到HashMap中，所以这就满足了HashSet中元素不会重复的特性。</p>
+<pre><code>public boolean remove(Object o) {
+    return map.remove(o)==PRESENT;
+}
+</code></pre><p>remove如果指定元素存在于此 set 中，则将其移除。底层使用HashMap的remove方法删除指定的Entry。</p>
+<pre><code>public void clear() {
+    map.clear();
+}
+</code></pre><p>clear从此 set 中移除所有元素。底层调用HashMap的clear方法清除所有的Entry。</p>
+<pre><code>public Object clone() {
+    try {
+        HashSet&lt;E&gt; newSet = (HashSet&lt;E&gt;) super.clone();
+        newSet.map = (HashMap&lt;E, Object&gt;) map.clone();
+        return newSet;
+    } catch (CloneNotSupportedException e) {
+        throw new InternalError();
+    }
+}
+</code></pre><p>clone返回此 HashSet 实例的浅表副本：并没有复制这些元素本身。</p>
+<p>后记：</p>
+<p>由于HashSet底层使用了HashMap实现，使其的实现过程变得非常简单，如果你对HashMap比较了解，那么HashSet简直是小菜一碟。有两个方法对HashMap和HashSet而言是非常重要的，下篇将详细讲解hashcode和equals。</p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/JoshuaAstrayPW" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2017 Joshua<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>
