@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<!-- Head tag -->
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Description-->
+    
+        <meta name="description" content="start from zero">
+    
+
+    <!--Author-->
+    
+        <meta name="author" content="Joshua">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="HashMap是如何产生死锁"/>
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="start from zero" />
+    
+
+    <!--Open Graph Site Name-->
+    <meta property="og:site_name" content="JoshuaAstray&#39;Blog"/>
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article" />
+    
+
+    <!--Page Cover-->
+    
+
+        <meta name="twitter:card" content="summary" />
+    
+
+    <!-- Title -->
+    
+    <title>HashMap是如何产生死锁 - JoshuaAstray&#39;Blog</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Gallery -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.css" type="text/css" rel="stylesheet" />
+
+    <!-- Google Analytics -->
+    
+
+
+    <!-- favicon -->
+    
+	
+</head>
+
+
+<body>
+
+    <!-- Menu -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Home</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+                    <li>
+                        <a href="/">
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="/archives">
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a href="https://github.com/JoshuaAstrayPW">
+                            
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+    <!-- Main Content -->
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
+
+<header class="intro-header" style="background-image: url('http://www.codeblocq.com/assets/projects/hexo-theme-clean-blog/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>HashMap是如何产生死锁</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        2017-04-03
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/tags/HashMap/">#HashMap</a> <a href="/tags/Java/">#Java</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
+            
+
+            <!-- Gallery -->
+            
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <p>在多线程环境中，使用HashMap进行put操作时会引起死循环，导致CPU使用接近100%，下面通过代码分析一下为什么会发生死循环。 </p>
+<p>   首先先分析一下HashMap的数据结构：HashMap底层数据结构是有一个链表数据构成的，HashMap中定义了一个静态内部类作为链表，代码如下： </p>
+<p>   <strong>静态内部类entry代码</strong></p>
+<pre><code>   static class Entry&lt;K,V&gt; implements Map.Entry&lt;K,V&gt; {  
+    final K key;  
+    V value;  
+    Entry&lt;K,V&gt; next;  
+    final int hash;  
+
+    /**  
+     * Creates new entry.  
+     */  
+    Entry(int h, K k, V v, Entry&lt;K,V&gt; n) {  
+        value = v;  
+        next = n;  
+        key = k;  
+        hash = h;  
+    }   
+}   
+</code></pre><p>  <strong>Hashmap属性代码</strong> </p>
+<pre><code>/**
+ * The table, resized as necessary. Length MUST Always be a power of two.
+ */
+transient Entry[] table; 
+</code></pre><p>   之所以会导致HashMap出现死循环是因为多线程会导致HashMap的Entry节点形成环链，这样当遍历集合时Entry的next节点用于不为空，从而形成死循环</p>
+<p>  单添加元素时会通过key的hash值确认链表数组下标 </p>
+<pre><code>   public V put(K key, V value) {
+    if (key == null)
+        return putForNullKey(value);
+
+    //确认链表数组位置
+    int hash = hash(key.hashCode());
+    int i = indexFor(hash, table.length);
+
+    //如果key相同则覆盖value部分
+    for (Entry&lt;K,V&gt; e = table[i]; e != null; e = e.next) {
+        Object k;
+        if (e.hash == hash &amp;&amp; ((k = e.key) == key || key.equals(k))) {
+            V oldValue = e.value;
+            e.value = value;
+            e.recordAccess(this);
+            return oldValue;
+        }
+    }
+
+    modCount++;
+    //添加链表节点
+    addEntry(hash, key, value, i);
+    return null;
+} 
+</code></pre><p>  下面看一下HashMap添加节点的实现 </p>
+<pre><code>   void addEntry(int hash, K key, V value, int     bucketIndex) {
+ //bucketIndex 通过key的hash值与链表数组的长度计算得出
+Entry&lt;K,V&gt; e = table[bucketIndex];
+//创建链表节点      
+  table[bucketIndex] = new Entry&lt;K,V&gt;(hash, key, value, e);
+
+  //判断是否需要扩容
+      if (size++ &gt;= threshold)
+        resize(2 * table.length);
+} 
+</code></pre><p>以上部分的实现不会导致链路出现环链，环链一般会出现HashMap扩容是，下面看看扩容的实现: </p>
+<pre><code> void resize(int newCapacity) {
+    Entry[] oldTable = table;
+    int oldCapacity = oldTable.length;
+    if (oldCapacity == MAXIMUM_CAPACITY) {
+        threshold = Integer.MAX_VALUE;
+        return;
+    }
+
+    Entry[] newTable = new Entry[newCapacity];
+
+    transfer(newTable);//可能导致环链
+
+    table = newTable;
+    threshold = (int)(newCapacity * loadFactor);
+} 
+</code></pre><p>下面transfer的实现:   </p>
+<pre><code>    void transfer(Entry[] newTable) {
+    Entry[] src = table;
+    int newCapacity = newTable.length;
+    for (int j = 0; j &lt; src.length; j++) {
+        Entry&lt;K,V&gt; e = src[j];
+        if (e != null) {
+            src[j] = null;
+            do {
+                Entry&lt;K,V&gt; next = e.next;
+                int i = indexFor(e.hash, newCapacity);
+                e.next = newTable[i];
+                newTable[i] = e;
+                e = next;
+            } while (e != null);
+        }
+    }
+} 
+</code></pre><p>  这个方法的目的是将原链表数据的数组拷到新的链表数组中，拷贝过程中如果形成环链的呢？下面用一个简单的例子来说明一下： </p>
+<pre><code>  public class InfiniteLoop {
+
+static final Map&lt;Integer, Integer&gt; map = new HashMap&lt;Integer, Integer&gt;(2, 0.75f);
+
+public static void main(String[] args) throws InterruptedException {
+
+    map.put(5, 55);
+
+    new Thread(&quot;Thread1&quot;) {
+        public void run() {
+            map.put(7, 77);
+            System.out.println(map);
+        };
+    }.start();
+
+    new Thread(&quot;Thread2&quot;) {
+        public void run() {
+            map.put(3, 33);
+            System.out.println(map);
+        };
+    }.start();
+
+}     
+   } 
+</code></pre><p>   这个方法的目的是将原链表数据的数组拷到新的链表数组中，拷贝过程中如果形成环链的呢？下面用一个简单的例子来说明一下： </p>
+<pre><code>public class InfiniteLoop {
+
+static final Map&lt;Integer, Integer&gt; map = new HashMap&lt;Integer, Integer&gt;(2, 0.75f);
+
+public static void main(String[] args) throws InterruptedException {
+
+    map.put(5, 55);
+
+    new Thread(&quot;Thread1&quot;) {
+        public void run() {
+            map.put(7, 77);
+            System.out.println(map);
+        };
+    }.start();
+
+    new Thread(&quot;Thread2&quot;) {
+        public void run() {
+            map.put(3, 33);
+            System.out.println(map);
+        };
+    }.start();
+
+}
+} 
+</code></pre><p>下面通过debug跟踪调试来看看如果导致HashMap形成环链，断点位置： </p>
+<ol>
+<li>线程1的put操作 </li>
+<li>线程2的put操作 </li>
+<li>线程2的输出操作</li>
+</ol>
+<p>HashMap源码transfer方法中的第一行、第六行、第九行<br>    测试开始</p>
+<p> 1.使线程1进入transfer方法第一行，此时map的结构如下  </p>
+<p> <img src="/2017/04/03/HashMap是如何产生死锁/H1.png" alt="H1"> </p>
+<p> 2.使线程2进入transfer方法第一行,此时map的结构如下：<br> <img src="/2017/04/03/HashMap是如何产生死锁/H1.png" alt="H1"><br> 3.接着切换回线程1，执行到transfer的第六行，此时map的结构如下：<br> <img src="/2017/04/03/HashMap是如何产生死锁/H2.png" alt="H2"> </p>
+<p> 4.然后切换回线程2使其执行到transfer方法的第六行，此时map的结够如上</p>
+<p> 5.接着切换回线程1使其执行到transfer方法的第九行，然后切换回线程2使其执行完，此时map的结构如下：</p>
+<p> <img src="/2017/04/03/HashMap是如何产生死锁/H3.png" alt="H3"><br>6.切换回线程1执行循环，因为线程1之前是停在HashMap的transfer方法的第九行处，所以此时transfer方法的节点e的key=3，e.next的key=7  </p>
+<pre><code>void transfer(Entry[] newTable) {
+    Entry[] src = table;
+    int newCapacity = newTable.length;
+    for (int j = 0; j &lt; src.length; j++) {
+        Entry&lt;K,V&gt; e = src[j];
+        if (e != null) {
+            src[j] = null;
+            do {
+                Entry&lt;K,V&gt; next = e.next;
+                int i = indexFor(e.hash, newCapacity); //线程1等线程2执行结束后
+                                                      //从此处开始执行
+                                                    //此时e的key=3,e.next.key=7
+                                                      //但是此时的e.next.next的key=3了
+                                                      //（被线程2修改了）
+                e.next = newTable[i];
+                newTable[i] = e;
+                e = next;
+            } while (e != null);
+        }
+    }
+}
+</code></pre><p>  下面线程1开始执行第一次循环，循环后的map结构如下： </p>
+<p>  <img src="/2017/04/03/HashMap是如何产生死锁/H4.png" alt="H4"><br>  接着执行第二次循环：e.key=7,e.next.key=3，e.next.next=null</p>
+<p><img src="/2017/04/03/HashMap是如何产生死锁/H5.png" alt="H5"></p>
+<p>  接着执行第三次循环，从而导致环链形成，map结构如下:<br>  <img src="/2017/04/03/HashMap是如何产生死锁/H6.png" alt="H6"></p>
+<p>   并且此时的map中还丢失了key=5的节点</p>
+
+
+                
+            </div>
+
+            <!-- Comments -->
+            
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
+            
+        </div>
+    </div>
+</article>
+
+    <!-- Footer -->
+    <hr />
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+
+                    
+
+                    
+                        <li>
+                            <a href="https://github.com/JoshuaAstrayPW" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    
+
+                    
+
+                    
+
+                    
+                </ul>
+                <p class="copyright text-muted">&copy; 2017 Joshua<br></p>
+                <p class="copyright text-muted">Original Theme <a target="_blank" href="http://startbootstrap.com/template-overviews/clean-blog/">Clean Blog</a> from <a href="http://startbootstrap.com/" target="_blank">Start Bootstrap</a></p>
+                <p class="copyright text-muted">Adapted for <a target="_blank" href="https://hexo.io/">Hexo</a> by <a href="http://www.codeblocq.com/" target="_blank">Jonathan Klughertz</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+    <!-- After footer scripts -->
+    
+<!-- jQuery -->
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<!-- Gallery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/featherlight/1.3.5/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+
+<!-- Disqus Comments -->
+
+
+
+</body>
+
+</html>
