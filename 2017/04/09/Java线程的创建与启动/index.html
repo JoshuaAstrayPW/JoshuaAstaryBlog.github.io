@@ -199,7 +199,7 @@ Thread(ThreadGroup group, Runnable target, String name, long stackSize)
 <pre><code>/** 
 * 实现Runnable接口的类 
 * 
-* @author leizhimin 2008-9-13 18:12:10 
+* @author fangxu 
 */ 
 public class DoSomething implements Runnable { 
 private String name; 
@@ -218,7 +218,6 @@ public void run() {
 /** 
 * 测试Runnable类实现的多线程程序 
 * 
-* @author leizhimin 2008-9-13 18:15:02 
 */ 
 public class TestRunnable { 
 public static void main(String[] args) { 
@@ -246,9 +245,7 @@ public static void main(String[] args) {
 阿三: 4
 Process finished with exit code 0
 </code></pre><h3 id="2、扩展Thread类实现的多线程例子"><a href="#2、扩展Thread类实现的多线程例子" class="headerlink" title="2、扩展Thread类实现的多线程例子"></a>2、扩展Thread类实现的多线程例子</h3><pre><code>/** 
-* 测试扩展Thread类实现的多线程程序 
-* 
-* @author leizhimin 2008-9-13 18:22:13 
+* 测试扩展Thread类实现的多线程程序  
 */ 
 public class TestThread extends Thread{ 
 public TestThread(String name) { 
