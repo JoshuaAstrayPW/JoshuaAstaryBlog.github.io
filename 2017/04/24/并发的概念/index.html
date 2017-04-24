@@ -20,7 +20,7 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="JoshuaAstray&#39;Blog"/>
+        <meta property="og:title" content="并发的概念"/>
     
 
     <!--Open Graph Description-->
@@ -33,7 +33,7 @@
 
     <!--Type page-->
     
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content="article" />
     
 
     <!--Page Cover-->
@@ -44,7 +44,7 @@
 
     <!-- Title -->
     
-    <title>Archives: 2017/4 - JoshuaAstray&#39;Blog</title>
+    <title>并发的概念 - JoshuaAstray&#39;Blog</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
@@ -130,169 +130,82 @@
 </nav>
 
     <!-- Main Content -->
-    
+    <!-- Page Header -->
+<!-- Set your background image for this header in your post front-matter: cover -->
 
-<!-- Page Header -->
-<!-- Set your background image for this header in the theme's configuration: index_cover -->
 <header class="intro-header" style="background-image: url('http://www.codeblocq.com/assets/projects/hexo-theme-clean-blog/img/home-bg.jpg')">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="site-heading">
-                    <h1>2017/4</h1>
+                <div class="post-heading">
+                    <h1>并发的概念</h1>
+                    
+                    <span class="meta">
+                        <!-- Date and Author -->
+                        
+                        2017-04-24
+                    </span>
                 </div>
             </div>
         </div>
     </div>
 </header>
 
-<!-- Main Content -->
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Tags and categories -->
+           
+                <div class="col-lg-4 col-lg-offset-2 col-md-5 col-md-offset-1 post-tags">
+                    
+                        
+
+
+<a href="/tags/并发/">#并发</a>
+
+
+                    
+                </div>
+                <div class="col-lg-4 col-md-5 post-categories">
+                    
+                </div>
             
-                <div class="post-preview">
-    <a href="/2017/04/24/并发的概念/">
-        <h1 class="post-title archive">
-            并发的概念
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-        2017-04-24
-    </p>
-</div>
+
+            <!-- Gallery -->
             
-                <div class="post-preview">
-    <a href="/2017/04/15/Java中的同步与异步/">
-        <h1 class="post-title archive">
-            Java中的同步与异步
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-        2017-04-15
-    </p>
-</div>
+
+            <!-- Post Main Content -->
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <h2 id="一·-什么是并行"><a href="#一·-什么是并行" class="headerlink" title="一· 什么是并行"></a>一· 什么是并行</h2><p> 并行就是同时运行，可以简单的计算并行数 = cpu数 <em> 核心数 </em> 2。<br> *2是因为Intel引入了超线程技术，使cpu核心数 ：线程数 = 1 ： 2。</p>
+<h2 id="二·-什么是并发"><a href="#二·-什么是并发" class="headerlink" title="二· 什么是并发"></a>二· 什么是并发</h2><p>这里的并发区别于并行，主要解决的问题就是如何让cpu“一心多用”。一个系统不可能只有寥寥几个线程，所以大部分系统采用了并发模式实现多线程。 </p>
+<p> 当我们谈论并发一定要加个时间单位，也就是说单位时间内并发量是多少。<br>实现并发的技术相当复杂，最简单最容易实现的就是“时间片轮转算法”，即所有线程轮流使用cpu，每个线程占用cpu的时间相当短（10ms），就好像在并行运行一样。<br>对于一个web程序的并发量来说是很难精确计算的。影响的因素可能会有：程序执行时间，cpu的时间片轮时间，程序占用的内存大小，程序占用的宽带大小，请求的数据库时间等。<br>这里给出一个极限的并发量算法的例子：<br>假设一个服务器有2个物理cpu，每个cpu是8核16个线程；那么它的1s极限并发量是：<br>1000ms <em> 16 </em> 2 / （cpu轮转切换时间（10ms）） + 程序执行时间（10ms） = 1600<br>那么3s就可达到4800个并发。 </p>
+<p>##三· 什么是吞吐量 </p>
+<h3 id="1·-网络吞吐量"><a href="#1·-网络吞吐量" class="headerlink" title="1· 网络吞吐量"></a>1· 网络吞吐量</h3><p>网络吞吐量是指某个时刻，在网络中的两个节点之间，提供给网络应用的剩余带宽。<br>即在没有帧丢失的情况下，设备能够接受的最大速率。网络吞吐量可以帮助寻找网络路径中的瓶颈。<br>吞吐量的大小一般受限于防火墙内网卡以及程序算法。程序算法会是防火墙进行大量运算，从而使通信量大打折扣。  </p>
+<p>###2· 系统吞吐量<br>系统吞吐量是指系统在单位时间内所处理的信息量，以每小时或每天处理的进程数来度量。  </p>
+<p>影响吞吐量的因素有： </p>
+<ol>
+<li>存储设备的存取速度 </li>
+<li>cpu性能 </li>
+<li>系统结构，如并行结构客增大吞吐量</li>
+</ol>
+
+
+                
+            </div>
+
+            <!-- Comments -->
             
-                <div class="post-preview">
-    <a href="/2017/04/15/Spring-IOC入门/">
-        <h1 class="post-title archive">
-            Spring IOC入门
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-        2017-04-15
-    </p>
-</div>
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+
+
+                </div>
             
-                <div class="post-preview">
-    <a href="/2017/04/15/Spring事务/">
-        <h1 class="post-title archive">
-            Spring事务
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-        2017-04-15
-    </p>
-</div>
-            
-                <div class="post-preview">
-    <a href="/2017/04/14/数据库事务概述/">
-        <h1 class="post-title archive">
-            数据库事务概述
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-        2017-04-14
-    </p>
-</div>
-            
-                <div class="post-preview">
-    <a href="/2017/04/09/Java线程的创建与启动/">
-        <h1 class="post-title archive">
-            Java线程的创建与启动
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-        2017-04-09
-    </p>
-</div>
-            
-                <div class="post-preview">
-    <a href="/2017/04/08/Iterator的实现/">
-        <h1 class="post-title archive">
-            Iterator的实现
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-        2017-04-08
-    </p>
-</div>
-            
-                <div class="post-preview">
-    <a href="/2017/04/05/ConcurrentHashMap机制详解/">
-        <h1 class="post-title archive">
-            ConcurrentHashMap机制详解
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-        2017-04-05
-    </p>
-</div>
-            
-                <div class="post-preview">
-    <a href="/2017/04/03/HashMap是如何产生死锁/">
-        <h1 class="post-title archive">
-            HashMap是如何产生死锁
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-        2017-04-03
-    </p>
-</div>
-            
-                <div class="post-preview">
-    <a href="/2017/04/02/volatile的使用/">
-        <h1 class="post-title archive">
-            volatile的使用
-        </h1>
-    </a>
-    <p class="post-meta archive">
-        <!-- Date and Author -->
-        
-        2017-04-02
-    </p>
-</div>
-            
-            <div class="archive-before-pagination"></div>
-            <ul class="pager">
-    
-    
-        <li class="next"><a href="/archives/2017/04/page/2/">Older Posts  &rarr;</a></li>
-    
-</ul>
         </div>
     </div>
-</div>
-
-
+</article>
 
     <!-- Footer -->
     <hr />
